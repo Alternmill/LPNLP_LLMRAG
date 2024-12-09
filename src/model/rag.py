@@ -15,16 +15,45 @@ class RagResponse:
 
 class RAG:
     def __init__(self, model_interface):
+        """
+        model_interface: an object that has a `.generate(messages)` method returning a string.
+        This could be an instance of QwenModel or any similar LLM interface.
+        """
         self.model_interface = model_interface
-        # self.bm25_retriever = ...
-        # self.semantic_retriever = ...
+
+    def fake_retrieve_context(self, user_input: str):
+        if "cookie" in user_input.lower():
+            return [
+                "To get chewy cookies, try using more brown sugar.",
+                "Chilling the dough before baking can improve texture.",
+                "Melted butter can help achieve a softer cookie."
+            ]
+        else:
+            return [
+                "No specific context found. But this is a placeholder.",
+                "Context retrieval not implemented yet."
+            ]
 
     def generate_response(self, user_input: str):
-        system_message = {"role": "system", "content": "You are Qwen. You are a friendly and concise assistant."}
-        user_message = {"role": "user", "content": user_input}
-        messages = [system_message, user_message]
+        context_chunks = self.fake_retrieve_context(user_input)
 
-        response = self.model_interface.generate(messages)
+        context_str = ""
+        for i, chunk in enumerate(context_chunks, start=1):
+            context_str += f"Source {i}: {chunk}\n"
+
+        system_message = {"role": "system", "content": "You are Qwen, a helpful assistant."}
+        user_message = {"role": "user", "content": user_input}
+
+        full_prompt = [
+            {
+                "role": "system",
+                "content": f"You have the following context:\n{context_str}\nUse this context to help answer the user's question."
+            },
+            user_message
+        ]
+
+        # Now call the model_interface.generate with this constructed message list
+        response = self.model_interface.generate(full_prompt)
         return response
 
 
