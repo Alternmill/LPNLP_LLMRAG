@@ -73,7 +73,7 @@ class RAG:
         # Define system message to set the assistant's personality
         system_message = {
             "role": "system",
-            "content": "You are Qwen, created by Alibaba Cloud. You are a friendly and concise assistant with a touch of humor."
+            "content": "You are Qwen. You are a friendly and concise assistant."
         }
 
         # Define user message
