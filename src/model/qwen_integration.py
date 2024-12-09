@@ -23,7 +23,7 @@ class QwenModel:
         self.model.eval()
         logger.info(f"Model '{self.model_name}' loaded successfully.")
 
-    def generate(self, messages, max_new_tokens=300, temperature=0.7, top_p=0.9):
+    def generate(self, messages, max_new_tokens=600, temperature=0.7, top_p=0.9):
 
         text = self.tokenizer.apply_chat_template(
             messages,
@@ -36,7 +36,7 @@ class QwenModel:
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=1024
+            max_length=4096
         ).to(self.device)
 
         generated_ids = self.model.generate(
