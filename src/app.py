@@ -191,9 +191,9 @@ def authenticate_user(username: str, password: str) -> bool:
 
 
 # UI with Login/Signup and gated main app
-with gr.Blocks(title="Qwen RAG Assistant") as iface:
+with gr.Blocks(title="Cooking RAG Assistant") as iface:
     gr.Markdown("""
-    # Qwen RAG Assistant
+    # Cooking RAG Assistant
     Please log in or sign up to use the assistant.
     """)
 
